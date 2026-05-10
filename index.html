@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RideShare+ Pitch Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --violet:#8B5CF6;
+  --violet-light:#C084FC;
+  --orange:#FF7A3D;
+  --orange-light:#FFB347;
+  --mint:#34D399;
+  --sky:#22D3EE;
+  --rose:#FB7185;
+  --ink:#F8FAFC;
+  --slate:#CBD5E1;
+  --muted:#94A3B8;
+  --cream:#050608;
+  --white:#11131A;
+  --panel:#151822;
+  --panel-2:#0B0D13;
+  --line:rgba(255,255,255,0.12);
+  --card-shadow:0 18px 45px rgba(0,0,0,0.34),0 0 28px rgba(139,92,246,0.12);
+  --font-head:'Clash Display',sans-serif;
+  --font-body:'Plus Jakarta Sans',sans-serif;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-family:var(--font-body);color:var(--ink);}
+
+/* DECK */
+.deck{width:100vw;height:100vh;position:relative;overflow:hidden;}
+
+.slide{
+  position:absolute;inset:0;
+  display:flex;align-items:stretch;
+  opacity:0;transform:translateY(40px);
+  transition:opacity 0.55s cubic-bezier(.4,0,.2,1),transform 0.55s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;overflow:hidden;
+}
+.slide::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 18% 20%,rgba(34,211,238,0.18),transparent 26%),
+    radial-gradient(circle at 78% 16%,rgba(255,122,61,0.15),transparent 30%),
+    linear-gradient(120deg,rgba(139,92,246,0.08),transparent 38%,rgba(52,211,153,0.08));
+  opacity:0.9;
+}
+.slide::after{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:0.25;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);
+  background-size:42px 42px;
+  mask-image:linear-gradient(to bottom,black,transparent 78%);
+}
+.slide.active{opacity:1;transform:translateY(0);pointer-events:all;}
+.slide.exit{opacity:0;transform:translateY(-40px);}
+
+/* SIDEBAR STRIPE */
+.stripe{
+  width:8px;flex-shrink:0;z-index:1;
+  background:linear-gradient(180deg,var(--sky) 0%,var(--mint) 35%,var(--orange-light) 68%,var(--rose) 100%);
+  box-shadow:0 0 28px rgba(34,211,238,0.4);
+}
+
+/* MAIN CONTENT AREA */
+.s-body{
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:40px 56px;background:linear-gradient(135deg,#050608 0%,#0C1018 52%,#090A0F 100%);
+  overflow:hidden;position:relative;z-index:1;
+}
+
+/* DECORATIVE BLOBS */
+.blob{position:absolute;border-radius:50%;pointer-events:none;}
+
+/* TYPOGRAPHY */
+.slide-label{
+  font-family:var(--font-head);font-size:11px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--orange-light);margin-bottom:10px;display:flex;align-items:center;gap:8px;
+  text-shadow:0 0 18px rgba(255,122,61,0.3);
+}
+.slide-label::before{content:'';width:24px;height:2px;background:linear-gradient(90deg,var(--sky),var(--orange-light));border-radius:2px;}
+
+.slide-title{
+  font-family:var(--font-head);font-size:clamp(28px,3.8vw,52px);font-weight:700;
+  color:var(--ink);line-height:1.05;margin-bottom:12px;
+  text-shadow:0 14px 40px rgba(0,0,0,0.5);
+}
+.slide-title em{color:var(--sky);font-style:normal;text-shadow:0 0 24px rgba(34,211,238,0.35);}
+
+.slide-sub{font-size:14px;color:var(--slate);line-height:1.75;max-width:520px;margin-bottom:28px;}
+
+/* TWO PANEL LAYOUT */
+.two-panel{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;height:100%;}
+.three-panel{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;align-items:start;}
+
+/* IMAGE PANEL */
+.img-panel{border-radius:20px;overflow:hidden;position:relative;height:100%;min-height:260px;border:1px solid var(--line);box-shadow:0 22px 60px rgba(0,0,0,0.45);}
+.img-panel img{width:100%;height:100%;object-fit:cover;display:block;}
+.img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(5,6,8,0.1) 0%,rgba(139,92,246,0.32) 52%,rgba(255,122,61,0.24) 100%);
+}
+.img-badge{
+  position:absolute;bottom:20px;left:20px;
+  background:rgba(8,10,15,0.84);border:1px solid var(--line);backdrop-filter:blur(14px);border-radius:12px;padding:10px 16px;
+  font-family:var(--font-head);font-size:13px;font-weight:600;color:var(--ink);
+  box-shadow:0 8px 24px rgba(0,0,0,0.38);
+}
+.img-badge span{color:var(--sky);}
+
+/* CARDS */
+.card,.team-card{
+  background:linear-gradient(145deg,rgba(21,24,34,0.94),rgba(11,13,19,0.88));
+  border-radius:16px;padding:20px;box-shadow:var(--card-shadow);
+  border:1px solid var(--line);backdrop-filter:blur(14px);
+}
+.card-sm{
+  background:linear-gradient(145deg,rgba(21,24,34,0.94),rgba(10,12,18,0.9));
+  border-radius:12px;padding:16px;box-shadow:0 12px 32px rgba(0,0,0,0.28);
+  border:1px solid var(--line);backdrop-filter:blur(12px);
+}
+.card-grid{display:grid;gap:14px;}
+.col2{grid-template-columns:1fr 1fr;}
+.col3{grid-template-columns:repeat(3,1fr);}
+.col4{grid-template-columns:repeat(4,1fr);}
+
+/* ICON CHIP */
+.chip{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:42px;height:42px;border-radius:12px;font-size:20px;margin-bottom:12px;
+}
+.chip-v{background:rgba(124,58,237,0.1);}
+.chip-o{background:rgba(255,107,53,0.1);}
+.chip-m{background:rgba(16,185,129,0.1);}
+.chip-s{background:rgba(14,165,233,0.1);}
+
+.card h4,.card-sm h4{font-family:var(--font-head);font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.card p,.card-sm p{font-size:13px;color:var(--slate);line-height:1.6;}
+
+/* STAT BOX */
+.stat-box{background:linear-gradient(135deg,var(--violet) 0%,var(--violet-light) 100%);border-radius:16px;padding:22px;color:white;}
+.stat-box.orange{background:linear-gradient(135deg,var(--orange) 0%,var(--orange-light) 100%);}
+.stat-box.mint{background:linear-gradient(135deg,var(--mint) 0%,#34D399 100%);}
+.stat-num{font-family:var(--font-head);font-size:36px;font-weight:700;line-height:1;}
+.stat-label{font-size:12px;opacity:0.85;margin-top:6px;}
+
+/* BADGE TAG */
+.badge{
+  display:inline-block;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  background:rgba(124,58,237,0.08);color:var(--violet-light);margin:4px 4px 4px 0;
+  border:1px solid rgba(124,58,237,0.15);
+}
+.badge.o{background:rgba(255,107,53,0.08);color:var(--orange);border-color:rgba(255,107,53,0.2);}
+.badge.m{background:rgba(16,185,129,0.08);color:var(--mint);border-color:rgba(16,185,129,0.2);}
+
+/* STRONG QUOTE */
+.quote-box{
+  background:linear-gradient(135deg,var(--violet) 0%,var(--violet-light) 80%);
+  border-radius:16px;padding:20px 28px;margin-top:20px;
+}
+.quote-box p{font-family:var(--font-head);font-size:clamp(14px,1.8vw,18px);font-weight:600;color:white;line-height:1.5;}
+
+/* DOT LIST */
+.dot-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.dot-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--slate);line-height:1.5;}
+.dot-list li::before{content:'';width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--orange));margin-top:4px;flex-shrink:0;}
+
+/* FLOW */
+.flow{display:flex;align-items:center;gap:0;flex-wrap:nowrap;}
+.flow-step{flex:1;text-align:center;position:relative;}
+.flow-step:not(:last-child)::after{
+  content:'→';position:absolute;right:-8px;top:50%;transform:translateY(-65%);
+  color:var(--violet-light);font-size:16px;font-weight:700;
+}
+.flow-bubble{
+  width:50px;height:50px;border-radius:50%;margin:0 auto 8px;
+  background:linear-gradient(135deg,var(--violet),var(--violet-light));
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  box-shadow:0 4px 16px rgba(91,33,182,0.25);
+}
+.flow-label{font-size:11px;color:var(--slate);font-weight:600;}
+
+/* PHASE */
+.phase-row{display:flex;align-items:flex-start;gap:16px;padding:14px;background:rgba(17,19,26,0.9);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,0.24);}
+.phase-num{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--violet),var(--orange));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-head);font-size:13px;font-weight:700;color:white;
+}
+.phase-row h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+.phase-row p{font-size:12px;color:var(--slate);}
+
+/* TEAM */
+.team-card{text-align:center;}
+.avatar{
+  width:60px;height:60px;border-radius:50%;margin:0 auto 12px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-head);font-size:18px;font-weight:700;
+}
+.av1{background:linear-gradient(135deg,#EDE9FE,#C4B5FD);color:var(--violet);}
+.av2{background:linear-gradient(135deg,#FEE2E2,#FECACA);color:#DC2626;}
+.av3{background:linear-gradient(135deg,#D1FAE5,#A7F3D0);color:var(--mint);}
+.av4{background:linear-gradient(135deg,#FEF3C7,#FDE68A);color:#D97706;}
+.team-card h4{font-family:var(--font-head);font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.team-card span{font-size:12px;color:var(--slate);}
+
+/* HEADER BAR */
+.top-bar{
+  position:fixed;top:0;left:0;right:0;height:52px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;z-index:100;
+  background:rgba(5,6,8,0.9);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 12px 30px rgba(0,0,0,0.28);
+}
+.brand-lockup,.logo-row{display:flex;align-items:center;gap:14px;min-width:0;}
+.logo{
+  font-family:var(--font-head);font-size:17px;font-weight:700;color:var(--ink);
+  white-space:nowrap;
+}
+.logo em{color:var(--sky);font-style:normal;}
+.pitch-mark{width:12px;height:42px;object-fit:cover;border-radius:5px;box-shadow:0 0 18px rgba(34,211,238,0.35);}
+.cmaced-logo{
+  height:34px;width:auto;max-width:190px;object-fit:contain;
+  background:rgba(255,255,255,0.96);border-radius:8px;padding:4px 8px;
+}
+.su-badge{
+  display:flex;align-items:center;gap:8px;min-width:0;
+  background:linear-gradient(135deg,rgba(139,92,246,0.22),rgba(34,211,238,0.12));
+  border:1px solid var(--line);border-radius:999px;padding:6px 12px;
+}
+.su-seal{
+  width:24px;height:24px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;
+  background:linear-gradient(135deg,var(--sky),var(--mint));color:#051014;
+  font-family:var(--font-head);font-size:10px;font-weight:700;
+}
+.uni-tag{font-size:10px;color:var(--slate);letter-spacing:1px;white-space:nowrap;}
+
+/* NAV */
+.nav-bar{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:10px;
+  background:rgba(10,12,18,0.9);border:1px solid var(--line);backdrop-filter:blur(14px);
+  border-radius:50px;padding:8px 18px;z-index:100;
+  box-shadow:0 18px 40px rgba(0,0,0,0.38);
+}
+.nav-btn{
+  width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--violet),var(--violet-light));
+  color:white;font-size:16px;display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;box-shadow:0 2px 8px rgba(91,33,182,0.3);
+}
+.nav-btn:hover{transform:scale(1.08);}
+.nav-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none;}
+.slide-counter{font-family:var(--font-head);font-size:13px;color:var(--slate);min-width:48px;text-align:center;}
+.slide-counter b{color:var(--sky);}
+.dots{display:flex;gap:5px;}
+.dot{width:6px;height:6px;border-radius:3px;background:#475569;transition:all 0.3s;cursor:pointer;}
+.dot.active{width:20px;background:linear-gradient(90deg,var(--sky),var(--orange-light));}
+
+/* SLIDE SPECIFIC */
+.slide .s-body{padding-top:60px;}
+.slide.active .slide-label,.slide.active .slide-title,.slide.active .slide-sub,.slide.active .card,.slide.active .card-sm,.slide.active .team-card,.slide.active .phase-row,.slide.active .img-panel,.slide.active .quote-box{
+  animation:riseIn 0.7s ease both;
+}
+.slide.active .card:nth-child(2),.slide.active .card-sm:nth-child(2),.slide.active .team-card:nth-child(2){animation-delay:0.06s;}
+.slide.active .card:nth-child(3),.slide.active .card-sm:nth-child(3),.slide.active .team-card:nth-child(3){animation-delay:0.12s;}
+.slide.active .card:nth-child(4),.slide.active .card-sm:nth-child(4),.slide.active .team-card:nth-child(4){animation-delay:0.18s;}
+@keyframes riseIn{from{opacity:0;transform:translateY(18px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+[style*="background:white"],[style*="background: white"]{
+  background:linear-gradient(145deg,rgba(21,24,34,0.94),rgba(10,12,18,0.9)) !important;
+  border:1px solid var(--line) !important;
+  color:var(--ink) !important;
+  box-shadow:0 12px 32px rgba(0,0,0,0.26) !important;
+}
+[style*="color:var(--slate)"]{color:var(--slate) !important;}
+[style*="color:var(--ink)"]{color:var(--ink) !important;}
+.stat-box,.quote-box{box-shadow:0 18px 46px rgba(0,0,0,0.32),0 0 30px rgba(139,92,246,0.16);}
+.card:hover,.card-sm:hover,.team-card:hover{transform:translateY(-3px);border-color:rgba(34,211,238,0.34);}
+
+@media (max-width:900px){
+  .top-bar{height:68px;padding:8px 14px;align-items:flex-start;}
+  .brand-lockup{gap:9px;}
+  .logo-row{gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+  .cmaced-logo{height:28px;max-width:150px;}
+  .su-badge{padding:5px 9px;}
+  .uni-tag{font-size:9px;}
+  .slide .s-body{padding-top:78px;}
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="brand-lockup">
+    <img class="pitch-mark" src="assets/rocket-color-bars.svg" alt="Rocket Pitch color mark">
+    <div class="logo">Ride<em>Share</em>+</div>
+  </div>
+  <div class="logo-row" aria-label="Presentation logos">
+    <img class="cmaced-logo" src="assets/cmaced-logo.png" alt="CMACED logo">
+    <div class="su-badge">
+      <span class="su-seal">SU</span>
+      <span class="uni-tag">SUPERIOR UNIVERSITY · CS · CSIT · ETTP</span>
+    </div>
+  </div>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- ========== SLIDE 1: HERO ========== -->
+  <div class="slide active" id="slide-0">
+    <div class="stripe"></div>
+    <div class="s-body" style="padding:60px 56px 40px;">
+      <div class="two-panel" style="height:calc(100vh - 100px);">
+        <div style="display:flex;flex-direction:column;justify-content:center;">
+          <div class="slide-label">Student Startup · Superior University</div>
+          <h1 class="slide-title" style="font-size:clamp(42px,6vw,80px);">
+            Ride<em>Share</em>+
+          </h1>
+          <p style="font-family:var(--font-head);font-size:clamp(14px,2vw,22px);color:var(--slate);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;">Smart Student Campus Commute App</p>
+          <div style="margin-bottom:32px;">
+            <span class="badge">✓ Safe Travel</span>
+            <span class="badge o">✓ Affordable</span>
+            <span class="badge m">✓ Verified Students</span>
+          </div>
+          <p class="slide-sub">Campus-focused ride-sharing app jo verified university students ko same routes par connect karti hai — safe travel aur cost sharing ke liye.</p>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <div style="background:white;border-radius:12px;padding:12px 20px;box-shadow:var(--card-shadow);">
+              <div style="font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--violet-light);">4+</div>
+              <div style="font-size:11px;color:var(--slate);">Team Members</div>
+            </div>
+            <div style="background:white;border-radius:12px;padding:12px 20px;box-shadow:var(--card-shadow);">
+              <div style="font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--orange);">Campus</div>
+              <div style="font-size:11px;color:var(--slate);">First Launch</div>
+            </div>
+            <div style="background:white;border-radius:12px;padding:12px 20px;box-shadow:var(--card-shadow);">
+              <div style="font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--mint);">Rs.10-20</div>
+              <div style="font-size:11px;color:var(--slate);">Per Ride Fee</div>
+            </div>
+          </div>
+        </div>
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80" alt="University students" onerror="this.src='https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80'">
+          <div class="img-overlay"></div>
+          <div class="img-badge">🚗 <span>RideShare+</span> — Safe. Smart. Shared.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 2: TEAM ========== -->
+  <div class="slide" id="slide-1">
+    <div class="stripe"></div>
+    <div class="s-body">
+      <div class="slide-label">Meet The Team</div>
+      <h2 class="slide-title">The Minds Behind <em>RideShare+</em></h2>
+      <p class="slide-sub">Computer Science students jo campus ki real problems solve kar rahe hain technology se.</p>
+      <div class="card-grid col4" style="margin-bottom:20px;">
+        <div class="team-card">
+          <div class="avatar av1">AH</div>
+          <h4>Ali Hassan</h4>
+          <span>Roll No. 297</span>
+        </div>
+        <div class="team-card">
+          <div class="avatar av2">TH</div>
+          <h4>Taimoor Hassan</h4>
+          <span>Roll No. 246</span>
+        </div>
+        <div class="team-card">
+          <div class="avatar av3">UA</div>
+          <h4>Usman Ali</h4>
+          <span>Roll No. 315</span>
+        </div>
+        <div class="team-card">
+          <div class="avatar av4">AA</div>
+          <h4>Abdul Ahad</h4>
+          <span>Roll No. 311</span>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,var(--violet),var(--violet-light));border-radius:16px;padding:20px 32px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;">
+        <div style="text-align:center;padding-right:20px;border-right:1px solid rgba(255,255,255,0.2);">
+          <p style="font-size:10px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;">Instructor</p>
+          <p style="font-family:var(--font-head);font-size:15px;font-weight:600;color:white;">Dr. Hamayun Khan</p>
+        </div>
+        <div style="text-align:center;padding:0 20px;border-right:1px solid rgba(255,255,255,0.2);">
+          <p style="font-size:10px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;">Coach</p>
+          <p style="font-family:var(--font-head);font-size:15px;font-weight:600;color:white;">Mam Amina Rida</p>
+        </div>
+        <div style="text-align:center;padding-left:20px;">
+          <p style="font-size:10px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;">Department</p>
+          <p style="font-family:var(--font-head);font-size:15px;font-weight:600;color:white;">CS · Faculty of CSIT</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 3: OVERVIEW ========== -->
+  <div class="slide" id="slide-2">
+    <div class="stripe"></div>
+    <div class="s-body">
+      <div class="two-panel" style="height:calc(100vh - 100px);">
+        <div>
+          <div class="slide-label">Project Overview</div>
+          <h2 class="slide-title">What is <em>RideShare+</em>?</h2>
+          <p class="slide-sub">RideShare+ ek trusted student mobility network hai — sirf university students ke liye, verification ke saath, safety ke saath.</p>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:14px;background:white;border-radius:12px;padding:14px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+              <div class="chip chip-v" style="margin:0;flex-shrink:0;">🎓</div>
+              <div><strong style="font-size:14px;color:var(--ink);">Verified Students Only</strong><p style="font-size:12px;color:var(--slate);margin-top:2px;">University ID/email se verified access</p></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;background:white;border-radius:12px;padding:14px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+              <div class="chip chip-o" style="margin:0;flex-shrink:0;">🗺️</div>
+              <div><strong style="font-size:14px;color:var(--ink);">Smart Route Matching</strong><p style="font-size:12px;color:var(--slate);margin-top:2px;">AI-powered same-route student connect</p></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;background:white;border-radius:12px;padding:14px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+              <div class="chip chip-m" style="margin:0;flex-shrink:0;">💰</div>
+              <div><strong style="font-size:14px;color:var(--ink);">Cost Sharing System</strong><p style="font-size:12px;color:var(--slate);margin-top:2px;">Ride fare auto-split between students</p></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;background:white;border-radius:12px;padding:14px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+              <div class="chip chip-s" style="margin:0;flex-shrink:0;">📍</div>
+              <div><strong style="font-size:14px;color:var(--ink);">Live Safety Tracking</strong><p style="font-size:12px;color:var(--slate);margin-top:2px;">Real-time GPS + SOS emergency alerts</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80" alt="Students collaborating" onerror="this.src='https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800'">
+          <div class="img-overlay"></div>
+          <div class="img-badge">🎓 <span>Trusted</span> Student Network</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 4: PROBLEM ========== -->
+  <div class="slide" id="slide-3">
+    <div class="stripe"></div>
+    <div class="s-body">
+      <div class="two-panel" style="height:calc(100vh - 100px);">
+        <div class="img-panel" style="border-radius:20px;overflow:hidden;">
+          <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=800&q=80" alt="Crowded bus transport" onerror="this.src='https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800'">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,53,0.4),rgba(91,33,182,0.3));"></div>
+          <div class="img-badge" style="background:var(--orange);color:white;bottom:20px;left:20px;">😓 Daily Student Problem</div>
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:center;">
+          <div class="slide-label">The Problem</div>
+          <h2 class="slide-title">The Student <em>Commute Gap</em></h2>
+          <ul class="dot-list" style="margin-bottom:20px;">
+            <li>Buses overcrowded aur unreliable hoti hain</li>
+            <li>Daily rides financially burdensome hoti hain</li>
+            <li>Late-night travel genuinely unsafe hota hai</li>
+            <li>Public transport schedule flexible nahi hoti</li>
+            <li>Same-route students ke beech koi organized system nahi</li>
+            <li>Parents ko safety visibility nahi milti</li>
+          </ul>
+          <div class="card-grid col3" style="gap:10px;">
+            <div class="stat-box" style="padding:16px;">
+              <div class="stat-num" style="font-size:26px;">2K+</div>
+              <div class="stat-label">Monthly transport cost per student (Rs.)</div>
+            </div>
+            <div class="stat-box orange" style="padding:16px;">
+              <div class="stat-num" style="font-size:26px;">70%</div>
+              <div class="stat-label">Students travelling same routes daily</div>
+            </div>
+            <div class="stat-box mint" style="padding:16px;">
+              <div class="stat-num" style="font-size:26px;">0</div>
+              <div class="stat-label">Verified campus-only ride app in Pakistan</div>
+            </div>
+          </div>
+          <div class="quote-box">
+            <p>The real gap is not transport — it's trust, safety and affordability.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 5: SOLUTION ========== -->
+  <div class="slide" id="slide-4">
+    <div class="stripe"></div>
+    <div class="s-body">
+      <div class="two-panel" style="height:calc(100vh - 100px);">
+        <div style="display:flex;flex-direction:column;justify-content:center;">
+          <div class="slide-label">Our Solution</div>
+          <h2 class="slide-title">The <em>RideShare+</em> Ecosystem</h2>
+          <p class="slide-sub">Ek verified platform jahan students rides create, join aur share kar sakte hain — safely aur affordably.</p>
+          <div class="card-grid col2" style="gap:12px;">
+            <div class="card-sm">
+              <div style="font-size:22px;margin-bottom:8px;">🔐</div>
+              <h4>Verified Access</h4>
+              <p>University ID/email verification. Sirf trusted students.</p>
+            </div>
+            <div class="card-sm">
+              <div style="font-size:22px;margin-bottom:8px;">🗺️</div>
+              <h4>Smart Route Match</h4>
+              <p>Algorithm same-route students ko auto-match karta hai.</p>
+            </div>
+            <div class="card-sm">
+              <div style="font-size:22px;margin-bottom:8px;">💳</div>
+              <h4>Cost Split & Pay</h4>
+              <p>Fare auto-calculate aur in-app payment — seamless.</p>
+            </div>
+            <div class="card-sm" style="border-color:rgba(124,58,237,0.2);">
+              <div style="font-size:22px;margin-bottom:8px;">🚨</div>
+              <h4>SOS Emergency Alert</h4>
+              <p>One-tap SOS jo police aur contacts ko alert kare.</p>
+            </div>
+            <div class="card-sm">
+              <div style="font-size:22px;margin-bottom:8px;">📍</div>
+              <h4>Live Location Tracking</h4>
+              <p>Parents real-time location dekh sakte hain anytime.</p>
+            </div>
+            <div class="card-sm">
+              <div style="font-size:22px;margin-bottom:8px;">⭐</div>
+              <h4>Ratings & Trust Score</h4>
+              <p>Community-driven rating for safe, accountable rides.</p>
+            </div>
+          </div>
+        </div>
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=800&q=80" alt="Ride sharing app on phone" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800'">
+          <div class="img-overlay"></div>
+          <div class="img-badge">📱 <span>7 Core</span> Features</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 6: COMPETITIVE EDGE ========== -->
+  <div class="slide" id="slide-5">
+    <div class="stripe"></div>
+    <div class="s-body">
+      <div class="slide-label">Competitive Edge</div>
+      <h2 class="slide-title">Why <em>RideShare+</em> Wins</h2>
+      <p class="slide-sub">Uber ya Careem nahi — hum student community ke liye specially designed platform hain.</p>
+      <div class="card-grid col2" style="margin-bottom:16px;">
+        <div class="card" style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="font-family:var(--font-head);font-size:42px;font-weight:700;color:rgba(91,33,182,0.15);line-height:1;flex-shrink:0;">01</div>
+          <div>
+            <h4>Student-Only Network</h4>
+            <p>Sirf verified university students access kar sakte hain. No strangers, no risk.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="font-family:var(--font-head);font-size:42px;font-weight:700;color:rgba(255,107,53,0.2);line-height:1;flex-shrink:0;">02</div>
+          <div>
+            <h4>Safety First Design</h4>
+            <p>Live tracking, SOS alerts, emergency contacts — built-in from day one.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="font-family:var(--font-head);font-size:42px;font-weight:700;color:rgba(16,185,129,0.2);line-height:1;flex-shrink:0;">03</div>
+          <div>
+            <h4>Affordable Commute</h4>
+            <p>Ride cost multiple students mein split — daily savings guaranteed.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="font-family:var(--font-head);font-size:42px;font-weight:700;color:rgba(14,165,233,0.2);line-height:1;flex-shrink:0;">04</div>
+          <div>
+            <h4>Campus-Focused Routes</h4>
+            <p>Routes aur timings university schedule ke exact hisaab se optimized.</p>
+          </div>
+        </div>
+      </div>
+      <div class="quote-box">
+        <p>We are not competing as a taxi app — we are building a student commute community.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 7: TARGET CUSTOMERS ========== -->
+  <div class="slide" id="slide-6">
+    <div class="stripe"></div>
+    <div class="s-body">
+      <div class="two-panel" style="height:calc(100vh - 100px);">
+        <div style="display:flex;flex-direction:column;justify-content:center;">
+          <div class="slide-label">Target Customers</div>
+          <h2 class="slide-title">Who We <em>Serve</em></h2>
+          <p style="font-family:var(--font-head);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:12px;">Primary Users</p>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+            <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:10px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+              <span style="font-size:18px;">🎓</span>
+              <div><strong style="font-size:13px;color:var(--ink);">Daily University Commuters</strong><p style="font-size:11px;color:var(--slate);">Same route, same timing — perfect match candidates</p></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:10px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+              <span style="font-size:18px;">🏠</span>
+              <div><strong style="font-size:13px;color:var(--ink);">Hostel Students</strong><p style="font-size:11px;color:var(--slate);">Weekend travel aur local commute partners</p></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:10px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+              <span style="font-size:18px;">👩‍🎓</span>
+              <div><strong style="font-size:13px;color:var(--ink);">Female Students</strong><p style="font-size:11px;color:var(--slate);">Safe, verified, female-preferred rides</p></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:10px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+              <span style="font-size:18px;">🌙</span>
+              <div><strong style="font-size:13px;color:var(--ink);">Late-Night Travelers</strong><p style="font-size:11px;color:var(--slate);">Safety-first option for after-hours commute</p></div>
+            </div>
+          </div>
+          <p style="font-family:var(--font-head);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--mint);margin-bottom:10px;">Secondary Stakeholders</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span class="badge">👨‍👩‍👧 Parents</span>
+            <span class="badge o">🏛️ Universities</span>
+            <span class="badge m">🏪 Campus Brands</span>
+            <span class="badge">🏨 Hostels</span>
+            <span class="badge o">🏬 Student Businesses</span>
+          </div>
+        </div>
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80" alt="Group of students" onerror="this.src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800'">
+          <div class="img-overlay"></div>
+          <div class="img-badge">🎯 <span>5</span> User Segments</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 8: HOW IT WORKS ========== -->
+  <div class="slide" id="slide-7">
+    <div class="stripe"></div>
+    <div class="s-body">
+      <div class="slide-label">How It Works</div>
+      <h2 class="slide-title">Simple <em>7-Step</em> Student Journey</h2>
+      <p class="slide-sub">Signup se leke ride complete tak — bilkul simple, bilkul safe.</p>
+      <div class="flow" style="margin:28px 0 32px;">
+        <div class="flow-step"><div class="flow-bubble">📱</div><div class="flow-label">Sign Up</div></div>
+        <div class="flow-step"><div class="flow-bubble" style="background:linear-gradient(135deg,var(--orange),var(--orange-light));">🎓</div><div class="flow-label">Verify</div></div>
+        <div class="flow-step"><div class="flow-bubble" style="background:linear-gradient(135deg,var(--mint),#34D399);">🗺️</div><div class="flow-label">Create/Join</div></div>
+        <div class="flow-step"><div class="flow-bubble">🤝</div><div class="flow-label">Match</div></div>
+        <div class="flow-step"><div class="flow-bubble" style="background:linear-gradient(135deg,var(--orange),var(--orange-light));">🚗</div><div class="flow-label">Ride</div></div>
+        <div class="flow-step"><div class="flow-bubble" style="background:linear-gradient(135deg,var(--mint),#34D399);">💳</div><div class="flow-label">Pay</div></div>
+        <div class="flow-step"><div class="flow-bubble">⭐</div><div class="flow-label">Rate</div></div>
+      </div>
+      <div class="card-grid col3">
+        <div class="card">
+          <div class="chip chip-v">🔐</div>
+          <h4>Secure Onboarding</h4>
+          <p>Student signs up, university email/ID se verification hoti hai. Sirf verified students enter kar sakte hain system mein.</p>
+        </div>
+        <div class="card" style="border-color:rgba(124,58,237,0.2);">
+          <div class="chip chip-o">🗺️</div>
+          <h4>Smart Ride Matching</h4>
+          <p>Student ride create ya join karta hai. App same-route students ko match karke live-tracked ride shuru karta hai.</p>
+        </div>
+        <div class="card">
+          <div class="chip chip-m">⭐</div>
+          <h4>Pay & Rate</h4>
+          <p>Cost auto-split hoti hai, in-app payment hota hai, aur dono parties ek doosre ko rate karti hain community building ke liye.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 9: REVENUE ========== -->
+  <div class="slide" id="slide-8">
+    <div class="stripe"></div>
+    <div class="s-body">
+      <div class="two-panel" style="height:calc(100vh - 100px);">
+        <div style="display:flex;flex-direction:column;justify-content:center;">
+          <div class="slide-label">Revenue Model</div>
+          <h2 class="slide-title">How <em>RideShare+</em> Makes Money</h2>
+          <p class="slide-sub">Multiple revenue streams — recurring aur scalable.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:14px;background:white;border-radius:12px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+              <span style="font-size:22px;width:40px;text-align:center;">💰</span>
+              <div style="flex:1;"><strong style="font-size:13px;">Service Fee Per Ride</strong><p style="font-size:11px;color:var(--slate);">Rs. 10–20 per ride — daily commute = recurring revenue</p></div>
+              <span class="badge" style="flex-shrink:0;font-size:11px;">Core</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;background:white;border-radius:12px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+              <span style="font-size:22px;width:40px;text-align:center;">👑</span>
+              <div style="flex:1;"><strong style="font-size:13px;">Premium Subscription</strong><p style="font-size:11px;color:var(--slate);">Priority matching, featured driver, no ads</p></div>
+              <span class="badge o" style="flex-shrink:0;font-size:11px;">Monthly</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;background:white;border-radius:12px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+              <span style="font-size:22px;width:40px;text-align:center;">🏛️</span>
+              <div style="flex:1;"><strong style="font-size:13px;">University Partnership Plans</strong><p style="font-size:11px;color:var(--slate);">Institutional mobility solution contracts</p></div>
+              <span class="badge m" style="flex-shrink:0;font-size:11px;">B2B</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;background:white;border-radius:12px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+              <span style="font-size:22px;width:40px;text-align:center;">📣</span>
+              <div style="flex:1;"><strong style="font-size:13px;">Campus Brand Sponsorships</strong><p style="font-size:11px;color:var(--slate);">Sponsored rides, in-app ads for campus brands</p></div>
+              <span class="badge" style="flex-shrink:0;font-size:11px;">Ads</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;background:white;border-radius:12px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+              <span style="font-size:22px;width:40px;text-align:center;">💳</span>
+              <div style="flex:1;"><strong style="font-size:13px;">Payment Convenience Fee</strong><p style="font-size:11px;color:var(--slate);">Small % on in-app digital transactions</p></div>
+              <span class="badge o" style="flex-shrink:0;font-size:11px;">Fintech</span>
+            </div>
+          </div>
+        </div>
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80" alt="Payment fintech app" onerror="this.src='https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800'">
+          <div class="img-overlay" style="background:linear-gradient(135deg,rgba(16,185,129,0.35),rgba(91,33,182,0.25));"></div>
+          <div class="img-badge" style="background:var(--mint);color:white;">💰 Recurring Daily Revenue</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 10: RETENTION ========== -->
+  <div class="slide" id="slide-9">
+    <div class="stripe"></div>
+    <div class="s-body">
+      <div class="slide-label">Why Students Stay</div>
+      <h2 class="slide-title">The <em>Retention</em> Advantage</h2>
+      <div style="background:linear-gradient(135deg,rgba(255,107,53,0.08),rgba(91,33,182,0.06));border:1px solid rgba(255,107,53,0.2);border-radius:14px;padding:14px 20px;margin-bottom:20px;">
+        <strong style="font-size:14px;color:var(--orange);">Q: Students direct contact share kar lein, phir app ki zaroorat kyu?</strong>
+        <p style="font-size:13px;color:var(--slate);margin-top:4px;">A: Contact share hoti hai — Safety, trust aur verification share nahi hoti.</p>
+      </div>
+      <div class="card-grid col3" style="margin-bottom:16px;">
+        <div class="card-sm">
+          <div style="font-size:22px;margin-bottom:8px;">📍</div>
+          <h4>Live Tracking</h4>
+          <p>Sirf app ke andar available. WhatsApp par possible nahi.</p>
+        </div>
+        <div class="card-sm">
+          <div style="font-size:22px;margin-bottom:8px;">🚨</div>
+          <h4>SOS Support</h4>
+          <p>Emergency alerts sirf app ke through — life-saving.</p>
+        </div>
+        <div class="card-sm">
+          <div style="font-size:22px;margin-bottom:8px;">📋</div>
+          <h4>Ride History Proof</h4>
+          <p>Legal ride records sirf app mein — dispute-proof.</p>
+        </div>
+        <div class="card-sm" style="border-color:rgba(124,58,237,0.2);">
+          <div style="font-size:22px;margin-bottom:8px;">⭐</div>
+          <h4>Trust Score</h4>
+          <p>Community reputation — no app, no score system.</p>
+        </div>
+        <div class="card-sm">
+          <div style="font-size:22px;margin-bottom:8px;">🎁</div>
+          <h4>Loyalty Points</h4>
+          <p>Rewards accumulate only in app — strong incentive to return.</p>
+        </div>
+        <div class="card-sm" style="border-color:rgba(16,185,129,0.3);">
+          <div style="font-size:22px;margin-bottom:8px;">🎓</div>
+          <h4>University Verification</h4>
+          <p>Institutional credibility — no number can replicate this.</p>
+        </div>
+      </div>
+      <div class="quote-box">
+        <p>Students can share numbers — but they cannot share safety, trust, rewards and verified identity.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 11: GTM + GROWTH ========== -->
+  <div class="slide" id="slide-10">
+    <div class="stripe"></div>
+    <div class="s-body">
+      <div class="two-panel" style="height:calc(100vh - 100px);">
+        <div style="display:flex;flex-direction:column;justify-content:center;">
+          <div class="slide-label">Go-To-Market Strategy</div>
+          <h2 class="slide-title">Campus-by-Campus <em>Launch Plan</em></h2>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+            <div class="phase-row">
+              <div class="phase-num">1</div>
+              <div><h5>Superior University Pilot</h5><p>Core product testing, early adopters, feedback loop build</p></div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">2</div>
+              <div><h5>Nearby Hostels & Residential Areas</h5><p>Expand user base beyond single campus boundary</p></div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">3</div>
+              <div><h5>Other Lahore Universities</h5><p>UET, LUMS, FAST, Kinnaird, GC University, etc.</p></div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">4</div>
+              <div><h5>Nationwide Multi-City Expansion</h5><p>Islamabad, Karachi, Faisalabad campuses</p></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span class="badge">🎓 Campus Ambassadors</span>
+            <span class="badge o">📋 QR Posters</span>
+            <span class="badge m">🎁 First Ride Rewards</span>
+            <span class="badge">👥 Referral Program</span>
+            <span class="badge o">📱 Instagram & TikTok</span>
+          </div>
+        </div>
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&q=80" alt="City aerial Lahore Pakistan" onerror="this.src='https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800'">
+          <div class="img-overlay" style="background:linear-gradient(135deg,rgba(91,33,182,0.4),rgba(16,185,129,0.2));"></div>
+          <div class="img-badge">🗺️ <span>Lahore First</span> → Pakistan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 12: CLOSING ========== -->
+  <div class="slide" id="slide-11">
+    <div class="stripe"></div>
+    <div class="s-body" style="position:relative;overflow:hidden;">
+      <div class="blob" style="width:500px;height:500px;background:rgba(124,58,237,0.06);top:-100px;right:-100px;filter:blur(60px);"></div>
+      <div class="blob" style="width:400px;height:400px;background:rgba(255,107,53,0.05);bottom:-100px;left:-60px;filter:blur(60px);"></div>
+      <div class="two-panel" style="height:calc(100vh - 100px);">
+        <div style="display:flex;flex-direction:column;justify-content:center;">
+          <div class="slide-label">Future Vision + Closing</div>
+          <h2 class="slide-title">Building the Future of <em>Student Mobility</em></h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+            <div class="card-sm"><span style="font-size:18px;">👩</span><h4 style="margin-top:6px;font-size:13px;">Female-Only Rides</h4><p>Safe dedicated option for female students</p></div>
+            <div class="card-sm"><span style="font-size:18px;">👨‍👩‍👧</span><h4 style="margin-top:6px;font-size:13px;">Parent Dashboard</h4><p>Real-time child safety tracking app</p></div>
+            <div class="card-sm"><span style="font-size:18px;">🤖</span><h4 style="margin-top:6px;font-size:13px;">AI Route Optimization</h4><p>ML-powered smarter route matching</p></div>
+            <div class="card-sm"><span style="font-size:18px;">💳</span><h4 style="margin-top:6px;font-size:13px;">Student Wallet</h4><p>Integrated digital payment wallet</p></div>
+            <div class="card-sm"><span style="font-size:18px;">🏛️</span><h4 style="margin-top:6px;font-size:13px;">University Dashboard</h4><p>Campus-level commute analytics</p></div>
+            <div class="card-sm"><span style="font-size:18px;">🌐</span><h4 style="margin-top:6px;font-size:13px;">Nationwide Network</h4><p>Every university in Pakistan</p></div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <span class="badge">Superior University</span>
+            <span class="badge o">CS · CSIT</span>
+            <span class="badge m">ETTP Program</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:center;gap:20px;">
+          <div class="img-panel" style="flex:1;min-height:0;">
+            <img src="https://images.unsplash.com/photo-1467533003447-e295ff1b0435?w=800&q=80" alt="Bright future sunrise city" onerror="this.src='https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800'">
+            <div class="img-overlay" style="background:linear-gradient(135deg,rgba(91,33,182,0.3),rgba(255,107,53,0.25));"></div>
+          </div>
+          <div style="background:linear-gradient(135deg,var(--violet),var(--orange));border-radius:16px;padding:22px 24px;text-align:center;">
+            <p style="font-family:var(--font-head);font-size:clamp(13px,1.6vw,17px);font-weight:600;color:white;line-height:1.6;">
+              "RideShare+ is not just a ride-sharing app —<br>it is a <u>trusted student mobility network</u><br>for the next generation of campus travel."
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>&#8592;</button>
+  <div class="dots" id="dots"></div>
+  <div class="slide-counter"><b id="curSlide">1</b> / 12</div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">&#8594;</button>
+</div>
+
+<script>
+let current=0;const total=12;
+const slides=document.querySelectorAll('.slide');
+const dotsC=document.getElementById('dots');
+for(let i=0;i<total;i++){const d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dotsC.appendChild(d);}
+function goTo(n){
+  slides[current].classList.remove('active');
+  slides[current].classList.add('exit');
+  setTimeout(()=>slides[current].classList.remove('exit'),550);
+  current=n;
+  slides[current].classList.add('active');
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===current));
+  document.getElementById('curSlide').textContent=current+1;
+  document.getElementById('prevBtn').disabled=current===0;
+  document.getElementById('nextBtn').disabled=current===total-1;
+}
+function changeSlide(dir){const n=current+dir;if(n>=0&&n<total)goTo(n);}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')changeSlide(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')changeSlide(-1);
+});
+</script>
+</body>
+</html>
