@@ -210,7 +210,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
 
 /* HEADER BAR */
 .top-bar{
-  position:fixed;top:0;left:0;right:0;height:52px;
+  position:fixed;top:0;left:0;right:0;height:66px;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 24px;z-index:100;
   background:rgba(5,6,8,0.9);backdrop-filter:blur(16px);
@@ -219,7 +219,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
 }
 .brand-lockup,.logo-row{display:flex;align-items:center;gap:14px;min-width:0;}
 .rideshare-logo{
-  height:56px;width:auto;display:block;object-fit:contain;flex-shrink:0;
+  height:54px;width:auto;display:block;object-fit:contain;flex-shrink:0;
+  border-radius:10px;
 }
 .cmaced-logo{
   height:34px;width:auto;max-width:190px;object-fit:contain;
@@ -260,7 +261,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
 .dot.active{width:20px;background:linear-gradient(90deg,var(--sky),var(--orange-light));}
 
 /* SLIDE SPECIFIC */
-.slide .s-body{padding-top:60px;}
+.slide .s-body{padding-top:76px;}
 .slide.active .slide-label,.slide.active .slide-title,.slide.active .slide-sub,.slide.active .card,.slide.active .card-sm,.slide.active .team-card,.slide.active .phase-row,.slide.active .img-panel,.slide.active .quote-box{
   animation:riseIn 0.7s ease both;
 }
@@ -281,14 +282,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
 .card:hover,.card-sm:hover,.team-card:hover{transform:translateY(-3px);border-color:rgba(34,211,238,0.34);}
 
 @media (max-width:900px){
-  .top-bar{height:68px;padding:8px 14px;align-items:flex-start;}
+  .top-bar{height:72px;padding:8px 14px;align-items:flex-start;}
   .brand-lockup{gap:9px;}
-  .rideshare-logo{height:42px;}
+  .rideshare-logo{height:46px;}
   .logo-row{gap:8px;flex-wrap:wrap;justify-content:flex-end;}
   .cmaced-logo{height:28px;max-width:150px;}
   .su-badge{padding:5px 9px;}
   .uni-tag{font-size:9px;}
-  .slide .s-body{padding-top:78px;}
+  .slide .s-body{padding-top:84px;}
 }
 </style>
 </head>
@@ -296,7 +297,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
 
 <div class="top-bar">
   <div class="brand-lockup">
-    <img class="rideshare-logo" src="assets/rideshare-logo.png" alt="RideShare+ logo">
+    <img class="rideshare-logo" src="assets/rideshare-logo.png.png" alt="RideShare+ logo">
   </div>
   <div class="logo-row" aria-label="Presentation logos">
     <img class="cmaced-logo" src="assets/cmaced-logo.png" alt="CMACED logo">
@@ -312,7 +313,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
   <!-- ========== SLIDE 1: HERO ========== -->
   <div class="slide active" id="slide-0">
     <div class="stripe"></div>
-    <div class="s-body" style="padding:60px 56px 40px;">
+    <div class="s-body" style="padding:76px 56px 40px;">
       <div class="two-panel" style="height:calc(100vh - 100px);">
         <div style="display:flex;flex-direction:column;justify-content:center;">
           <div class="slide-label">Student Startup · Superior University</div>
