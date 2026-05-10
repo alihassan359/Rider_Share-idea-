@@ -218,12 +218,37 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
   box-shadow:0 12px 30px rgba(0,0,0,0.28);
 }
 .brand-lockup,.logo-row{display:flex;align-items:center;gap:14px;min-width:0;}
+.app-icon{
+  width:42px;height:42px;border-radius:13px;position:relative;flex-shrink:0;
+  background:
+    radial-gradient(circle at 54% 36%,rgba(255,255,255,0.95) 0 7px,transparent 8px),
+    radial-gradient(circle at 54% 36%,rgba(34,211,238,0.95) 0 18px,transparent 19px),
+    radial-gradient(circle at 50% 28%,rgba(192,132,252,0.9),transparent 34%),
+    linear-gradient(135deg,#4C1D95 0%,#7C3AED 38%,#06B6D4 72%,#22D3EE 100%);
+  box-shadow:0 0 22px rgba(34,211,238,0.34),0 10px 24px rgba(0,0,0,0.34);
+  overflow:hidden;
+}
+.app-icon::before{
+  content:'';position:absolute;left:50%;top:14px;width:19px;height:26px;
+  transform:translateX(-50%) rotate(45deg);border-radius:50% 50% 50% 0;
+  background:linear-gradient(135deg,#F8FAFC 0%,#67E8F9 44%,#2563EB 100%);
+  box-shadow:0 0 10px rgba(255,255,255,0.8),0 0 18px rgba(34,211,238,0.72);
+}
+.app-icon::after{
+  content:'';position:absolute;left:50%;top:19px;width:8px;height:8px;
+  transform:translateX(-50%);border-radius:50%;background:#1E1B4B;
+  box-shadow:
+    -17px -10px 0 -3px rgba(255,255,255,0.5),
+    19px -5px 0 -4px rgba(255,255,255,0.48),
+    -21px 12px 0 -4px rgba(255,255,255,0.42),
+    22px 18px 0 -4px rgba(255,255,255,0.38);
+}
 .logo{
-  font-family:var(--font-head);font-size:17px;font-weight:700;color:var(--ink);
+  font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--ink);
   white-space:nowrap;
 }
 .logo em{color:var(--sky);font-style:normal;}
-.pitch-mark{width:12px;height:42px;object-fit:cover;border-radius:5px;box-shadow:0 0 18px rgba(34,211,238,0.35);}
+.logo .plus{color:var(--sky);font-weight:800;text-shadow:0 0 16px rgba(34,211,238,0.55);}
 .cmaced-logo{
   height:34px;width:auto;max-width:190px;object-fit:contain;
   background:rgba(255,255,255,0.96);border-radius:8px;padding:4px 8px;
@@ -286,6 +311,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
 @media (max-width:900px){
   .top-bar{height:68px;padding:8px 14px;align-items:flex-start;}
   .brand-lockup{gap:9px;}
+  .app-icon{width:36px;height:36px;border-radius:11px;}
+  .logo{font-size:18px;}
   .logo-row{gap:8px;flex-wrap:wrap;justify-content:flex-end;}
   .cmaced-logo{height:28px;max-width:150px;}
   .su-badge{padding:5px 9px;}
@@ -298,8 +325,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
 
 <div class="top-bar">
   <div class="brand-lockup">
-    <img class="pitch-mark" src="assets/rocket-color-bars.svg" alt="Rocket Pitch color mark">
-    <div class="logo">Ride<em>Share</em>+</div>
+    <div class="app-icon" aria-hidden="true"></div>
+    <div class="logo">Ride<em>Share</em><span class="plus">+</span></div>
   </div>
   <div class="logo-row" aria-label="Presentation logos">
     <img class="cmaced-logo" src="assets/cmaced-logo.png" alt="CMACED logo">
