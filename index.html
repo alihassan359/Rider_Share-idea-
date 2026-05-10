@@ -218,46 +218,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
   box-shadow:0 12px 30px rgba(0,0,0,0.28);
 }
 .brand-lockup,.logo-row{display:flex;align-items:center;gap:14px;min-width:0;}
-.app-icon{
-  width:56px;height:56px;border-radius:15px;position:relative;flex-shrink:0;
-  background:
-    radial-gradient(circle at 27% 28%,rgba(255,255,255,0.9) 0 1px,transparent 2px),
-    radial-gradient(circle at 72% 26%,rgba(255,255,255,0.55) 0 1px,transparent 2px),
-    radial-gradient(circle at 78% 55%,rgba(255,255,255,0.42) 0 1px,transparent 2px),
-    radial-gradient(circle at 28% 70%,rgba(255,255,255,0.42) 0 1px,transparent 2px),
-    linear-gradient(132deg,#3B047D 0%,#7C22D8 36%,#0362C9 62%,#00E6C3 100%);
-  box-shadow:0 9px 22px rgba(0,0,0,0.3),inset 0 1px 10px rgba(255,255,255,0.2);
-  overflow:hidden;
+.rideshare-logo{
+  height:56px;width:auto;display:block;object-fit:contain;flex-shrink:0;
 }
-.app-icon::before{
-  content:'';position:absolute;left:50%;top:8px;width:28px;height:38px;
-  transform:translateX(-50%) rotate(45deg);border-radius:50% 50% 50% 0;
-  background:linear-gradient(135deg,#F7F7FF 0%,#A7F3FF 42%,#2A5EE8 100%);
-  border:3px solid rgba(255,255,255,0.9);
-  box-shadow:0 0 9px rgba(255,255,255,0.9),0 0 17px rgba(58,235,255,0.9);
-  z-index:2;
-}
-.app-icon::after{
-  content:'';position:absolute;left:50%;top:17px;width:10px;height:10px;
-  transform:translateX(-50%);border-radius:50%;background:#0B3A73;
-  box-shadow:0 0 0 3px rgba(255,255,255,0.68),0 0 12px rgba(255,255,255,0.8);
-  z-index:3;
-}
-.app-icon .road{
-  position:absolute;left:10px;right:11px;bottom:2px;height:24px;
-  background:
-    linear-gradient(118deg,transparent 0 39%,rgba(255,255,255,0.95) 40% 43%,transparent 44%),
-    linear-gradient(100deg,transparent 0 47%,rgba(255,255,255,0.55) 48% 50%,transparent 51%),
-    linear-gradient(63deg,transparent 0 52%,rgba(255,255,255,0.95) 53% 56%,transparent 57%);
-  opacity:0.85;
-}
-.logo{
-  font-family:Arial,'Plus Jakarta Sans',sans-serif;font-size:25px;font-weight:800;color:#1A1A4E;
-  white-space:nowrap;
-  letter-spacing:-1.2px;
-}
-.logo em{color:#04A9EF;font-style:normal;}
-.logo .plus{color:#18C7F6;font-weight:900;text-shadow:none;}
 .cmaced-logo{
   height:34px;width:auto;max-width:190px;object-fit:contain;
   background:rgba(255,255,255,0.96);border-radius:8px;padding:4px 8px;
@@ -320,11 +283,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
 @media (max-width:900px){
   .top-bar{height:68px;padding:8px 14px;align-items:flex-start;}
   .brand-lockup{gap:9px;}
-  .app-icon{width:42px;height:42px;border-radius:12px;}
-  .app-icon::before{top:7px;width:21px;height:29px;border-width:2px;}
-  .app-icon::after{top:14px;width:7px;height:7px;}
-  .app-icon .road{left:8px;right:9px;height:18px;}
-  .logo{font-size:20px;letter-spacing:-0.8px;}
+  .rideshare-logo{height:42px;}
   .logo-row{gap:8px;flex-wrap:wrap;justify-content:flex-end;}
   .cmaced-logo{height:28px;max-width:150px;}
   .su-badge{padding:5px 9px;}
@@ -337,8 +296,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--cream);font-fa
 
 <div class="top-bar">
   <div class="brand-lockup">
-    <div class="app-icon" aria-hidden="true"><span class="road"></span></div>
-    <div class="logo">Ride<em>Share</em><span class="plus">+</span></div>
+    <img class="rideshare-logo" src="assets/rideshare-logo.png" alt="RideShare+ logo">
   </div>
   <div class="logo-row" aria-label="Presentation logos">
     <img class="cmaced-logo" src="assets/cmaced-logo.png" alt="CMACED logo">
